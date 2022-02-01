@@ -9,13 +9,26 @@ const PORT = 3000;
 const friends = [
   {
     id: 0,
-    name: "Albert Einstein",
+    name: "Steve Jobs",
   },
   {
     id: 1,
     name: "Nikola Tesla",
   },
 ];
+
+//Middleware
+
+//This middleware is for logging
+app.use((req, res, next) => {
+  const start = Date.now();
+  next();
+  const delta = Date.now() - start;
+  console.log(`${req.method} ${req.url}  ${delta}ms`);
+});
+
+//This middleware is for parsing
+app.use(express.json());
 
 //GET Requests
 
@@ -44,6 +57,23 @@ app.get("/messages", (req, res) => {
 });
 
 //POST Requests
+
+app.post("/friends", (req, res) => {
+  //Data validation
+  if (!req.body.name) {
+   return res.status(400).json({
+      error: "Friend doesnt exist",
+    });
+  }
+
+  const newFriend = {
+    name: req.body.name,
+    id: friends.length,
+  };
+  friends.push(newFriend);
+
+  res.json(newFriend);
+});
 
 app.post("/messages", (req, res) => {
   console.log("Updating messages");
