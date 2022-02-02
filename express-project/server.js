@@ -10,6 +10,11 @@ const messagesRouter = require("./routes/messages.router");
 
 const app = express();
 
+//Express settings
+
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
+
 const PORT = 3000;
 
 //Middleware
@@ -31,6 +36,13 @@ app.use(express.json());
 //Middleware for friendsRouter
 app.use("/friends", friendsRouter);
 app.use("/messages", messagesRouter);
+
+app.get("/", (req, res) => {
+  res.render("index.hbs", {
+    title: "My Friends",
+    caption: "Lets go Skiing",
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on PORT : ${PORT}`);

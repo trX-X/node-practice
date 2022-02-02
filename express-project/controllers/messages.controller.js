@@ -5,7 +5,11 @@ const path = require("path");
 
 function getMessages(req, res) {
   // res.send("<ul><li>Helloo!!</ul></li>");
-  res.sendFile(path.join(__dirname, "..", "public",'images', "skimountain.jpg"));
+  // res.sendFile(path.join(__dirname, "..", "public",'images', "skimountain.jpg"));
+  res.render("messages", {
+    title: "Messages to my friend",
+    friend: "Elon musk",
+  });
 }
 
 //POST controllers
